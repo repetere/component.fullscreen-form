@@ -1,11 +1,16 @@
 <html lang="en" class="no-js">
 <% var filepathprefix='' ; %>
   <% var pagepathprefix='pages/' ; %>
-    <% include pages/_html_head %>
+    <% include shared/_html_head %>
 
       <body>
+
         <div class="container">
+
           <div class="fs-form-wrap" id="fs-form-wrap">
+            <div class="fs-title">
+              <h1>Project Worksheet</h1>
+            </div>
             <form id="myform" class="fs-form fs-form-full" autocomplete="off">
               <ol class="fs-fields">
                 <li>
@@ -48,8 +53,11 @@
             <!-- /fs-form -->
           </div>
           <!-- /fs-form-wrap -->
+
+
         </div>
         <!-- /container -->
+
         <script>
         window.addEventListener('load', function() {
           var formWrap = document.getElementById('fs-form-wrap');

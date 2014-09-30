@@ -82,6 +82,9 @@ FForm.prototype.options = {
 	// reached the review and submit step
 	onReview: function () {
 		return false;
+	},
+	onShowInput: function () {
+		return false;
 	}
 };
 
@@ -90,9 +93,17 @@ FForm.prototype.options = {
  * initialize and cache some vars
  */
 FForm.prototype._init = function () {
-	classie.remove(document.documentElement, 'no-js');
+	var docBody = document.documentElement;
+	classie.remove(docBody, 'no-js');
+	classie.add(docBody, 'js');
+	if (support.animations) {
+		classie.add(docBody, 'cssanimations');
+		classie.add(docBody, 'csscalc');
+		classie.add(docBody, 'cssvhunit');
+	}
 	// the form element
 	this.formEl = this.el.querySelector('form');
+	this.formEl.querySelector('input').focus();
 
 	// list of fields
 	this.fieldsList = this.formEl.querySelector('ol.fs-fields');
@@ -312,6 +323,8 @@ FForm.prototype._nextField = function (backto) {
 		this._updateFieldNumber();
 
 		var nextField = this.fields[this.current];
+		// console.log('nextField', nextField.querySelector('input'));
+		// nextField.querySelector('input').focus();
 		classie.add(nextField, 'fs-current');
 		classie.add(nextField, 'fs-show');
 	}
@@ -374,6 +387,7 @@ FForm.prototype._nextField = function (backto) {
  * jumps to the field at position pos
  */
 FForm.prototype._showField = function (pos) {
+	console.log('pos', pos);
 	if (pos === this.current || pos < 0 || pos > this.fieldsCount - 1) {
 		return false;
 	}

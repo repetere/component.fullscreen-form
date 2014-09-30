@@ -42,8 +42,8 @@
 
     <section>
         <article><h1>component.fullscreen-form</h1>
-<p>Some inspiration for styling a custom version of the select element. There are many possibilities and today we are exploring some ideas of how to let the user select a choice in style. </p>
-<p>Inspired by <a href="http://tympanus.net/codrops/2014/07/10/inspiration-for-custom-select-elements/">INSPIRATION FOR CUSTOM SELECT ELEMENTS</a></p>
+<p>An experimental fullscreen form concept where the idea is to allow distraction-free form filling with some fancy animations when moving between form fields.</p>
+<p>Inspired by <a href="http://tympanus.net/codrops/2014/07/30/fullscreen-form-interface/">FULLSCREEN FORM INTERFACE</a></p>
 <h2>Example</h2>
 <p>Check out <code>example/index.html</code>, the example javascript for the example page is <code>resources/js/example_src.js</code></p>
 <h2>Installation</h2>
@@ -51,15 +51,16 @@
 <p>The fullscreen-form component is a browserified javascript module.</p>
 <h2>Usage</h2>
 <p><em>JavaScript</em></p>
-<pre><code class="lang-javascript">var fullscreen-form = require('periodicjs.component.fullscreen-form'),
-myFXSelect;
-//initialize nav component after the dom has loaded
-window.addEventListener('load',function(){
-    var selectElement = document.querySelector('select');
-  myFXSelect = new fullscreen-form(selectElement);
-    //expose your component to the window global namespace
-    window.myFXSelect = myFXSelect;
-});</code></pre>
+<pre><code class="lang-javascript">var FForm = require('periodicjs.component.fullscreen-form');
+window.FForm = FForm;
+window.addEventListener('load', function() {
+  var formWrap = document.getElementById('fs-form-wrap');
+  new window.FForm(formWrap, {
+    onReview: function() {
+      classie.add(document.body, 'overview'); // for demo purposes only
+    }
+  });
+}, false);</code></pre>
 <p><em>HTML</em></p>
 <pre><code class="lang-html">&lt;html&gt;
     &lt;head&gt;
@@ -69,22 +70,57 @@ window.addEventListener('load',function(){
     &lt;/head&gt;
     &lt;body&gt;
         &lt;div class=&quot;container&quot;&gt;
-        &lt;section&gt;
-        &lt;select class=&quot;cs-select cs-skin-elastic&quot;&gt;
-          &lt;option value=&quot;&quot; disabled selected&gt;Select a Country&lt;/option&gt;
-          &lt;option value=&quot;france&quot; data-class=&quot;flag-france&quot;&gt;France&lt;/option&gt;
-          &lt;option value=&quot;brazil&quot; data-class=&quot;flag-brazil&quot;&gt;Brazil&lt;/option&gt;
-          &lt;option value=&quot;argentina&quot; data-class=&quot;flag-argentina&quot;&gt;Argentina&lt;/option&gt;
-          &lt;option value=&quot;south-africa&quot; data-class=&quot;flag-safrica&quot;&gt;South Africa&lt;/option&gt;
-        &lt;/select&gt;
-      &lt;/section&gt;
+          &lt;div class=&quot;fs-form-wrap&quot; id=&quot;fs-form-wrap&quot;&gt;
+            &lt;form id=&quot;myform&quot; class=&quot;fs-form fs-form-full&quot; autocomplete=&quot;off&quot;&gt;
+              &lt;ol class=&quot;fs-fields&quot;&gt;
+                &lt;li&gt;
+                  &lt;label class=&quot;fs-field-label fs-anim-upper&quot; for=&quot;q1&quot;&gt;What's your name?&lt;/label&gt;
+                  &lt;input class=&quot;fs-anim-lower&quot; id=&quot;q1&quot; name=&quot;q1&quot; type=&quot;text&quot; placeholder=&quot;Dean Moriarty&quot; required/&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                  &lt;label class=&quot;fs-field-label fs-anim-upper&quot; for=&quot;q2&quot; data-info=&quot;We won't send you spam, we promise...&quot;&gt;What's your email address?&lt;/label&gt;
+                  &lt;input class=&quot;fs-anim-lower&quot; id=&quot;q2&quot; name=&quot;q2&quot; type=&quot;email&quot; placeholder=&quot;dean@road.us&quot; required/&gt;
+                &lt;/li&gt;
+                &lt;li data-input-trigger&gt;
+                  &lt;label class=&quot;fs-field-label fs-anim-upper&quot; for=&quot;q3&quot; data-info=&quot;This will help us know what kind of service you need&quot;&gt;What's your priority for your new website?&lt;/label&gt;
+                  &lt;div class=&quot;fs-radio-group fs-radio-custom clearfix fs-anim-lower&quot;&gt;
+                    &lt;span&gt;
+                      &lt;input id=&quot;q3b&quot; name=&quot;q3&quot; type=&quot;radio&quot; value=&quot;conversion&quot; /&gt;
+                      &lt;label for=&quot;q3b&quot; class=&quot;radio-conversion&quot;&gt;Sell things&lt;/label&gt;
+                    &lt;/span&gt;
+                    &lt;span&gt;
+                      &lt;input id=&quot;q3c&quot; name=&quot;q3&quot; type=&quot;radio&quot; value=&quot;social&quot; /&gt;
+                      &lt;label for=&quot;q3c&quot; class=&quot;radio-social&quot;&gt;Become famous&lt;/label&gt;
+                    &lt;/span&gt;
+                    &lt;span&gt;
+                      &lt;input id=&quot;q3a&quot; name=&quot;q3&quot; type=&quot;radio&quot; value=&quot;mobile&quot; /&gt;
+                      &lt;label for=&quot;q3a&quot; class=&quot;radio-mobile&quot;&gt;Mobile market&lt;/label&gt;
+                    &lt;/span&gt;
+                  &lt;/div&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                  &lt;label class=&quot;fs-field-label fs-anim-upper&quot; for=&quot;q4&quot;&gt;Describe how you imagine your new website&lt;/label&gt;
+                  &lt;textarea class=&quot;fs-anim-lower&quot; id=&quot;q4&quot; name=&quot;q4&quot; placeholder=&quot;Describe here&quot;&gt;&lt;/textarea&gt;
+                &lt;/li&gt;
+                &lt;li&gt;
+                  &lt;label class=&quot;fs-field-label fs-anim-upper&quot; for=&quot;q5&quot;&gt;What's your budget?&lt;/label&gt;
+                  &lt;input class=&quot;fs-mark fs-anim-lower&quot; id=&quot;q5&quot; name=&quot;q5&quot; type=&quot;number&quot; placeholder=&quot;1000&quot; step=&quot;100&quot; min=&quot;100&quot; /&gt;
+                &lt;/li&gt;
+              &lt;/ol&gt;
+              &lt;!-- /fs-fields --&gt;
+              &lt;button class=&quot;fs-submit&quot; type=&quot;submit&quot;&gt;Send answers&lt;/button&gt;
+            &lt;/form&gt;
+            &lt;!-- /fs-form --&gt;
+          &lt;/div&gt;
+          &lt;!-- /fs-form-wrap --&gt;
+        &lt;/div&gt;
     &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 <h2>API</h2>
 <h4>Full API <a href="https://github.com/typesettin/component.fullscreen-form/blob/master/doc/api.md">DOCUMENTATION</a></h4>
-<pre><code class="lang-javascript">new fullscreen-form(selectElement, {
-  onChange: function(val) {
-    console.log('val', val); //callback for value change
+<pre><code class="lang-javascript">new window.FForm(formWrap, {
+  onReview: function() {
+    classie.add(document.body, 'overview'); // for demo purposes only
   }
 });</code></pre>
 <h2>Development</h2>
@@ -106,13 +142,13 @@ window.addEventListener('load',function(){
 </div>
 
 <nav>
-    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#hasParent">hasParent</a></li><li><a href="global.html#fullscreen-form">fullscreen-form</a></li></ul>
+    <h2><a href="index.html">Index</a></h2><h3>Global</h3><ul><li><a href="global.html#createElement">createElement</a></li><li><a href="global.html#FForm">FForm</a></li></ul>
 </nav>
 
 <br clear="both">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Mon Sep 29 2014 15:59:45 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.2</a> on Tue Sep 30 2014 11:21:18 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>
